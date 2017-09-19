@@ -8,11 +8,10 @@ $(document).ready(function(){
 	//click on character image to select player, and again to choose opponent
 	$(".charImage").on("click", choosePlayer);
 
-	$("#attackButton").on("click", makeNoise);
 
 	function makeNoise(){
-		console.log("HONK!!");
-	}
+		thisGame.characters[thisGame.player].attack(thisGame.characters[thisGame.currentOpponent]);	}
+	
 	function choosePlayer(){
 		console.log(this.id);
 		if(thisGame.player == undefined){
@@ -24,6 +23,7 @@ $(document).ready(function(){
 		console.log('thisGame.player', thisGame.player);
 		console.log('thisGame.currentOpponent', thisGame.currentOpponent);
 		if (thisGame.player != undefined && thisGame.currentOpponent != undefined){
+			// $(".charImage").off();
 			return thisGame.startGame();
 		}
 	}
@@ -74,7 +74,7 @@ $(document).ready(function(){
 		}
 	}
 
-
+	$(".attack").on("click", makeNoise);
 
 	console.log(thisGame.characters);
 
