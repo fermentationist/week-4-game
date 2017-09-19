@@ -8,7 +8,11 @@ $(document).ready(function(){
 	//click on character image to select player, and again to choose opponent
 	$(".charImage").on("click", choosePlayer);
 
+	$("#attackButton").on("click", makeNoise);
 
+	function makeNoise(){
+		console.log("HONK!!");
+	}
 	function choosePlayer(){
 		console.log(this.id);
 		if(thisGame.player == undefined){
@@ -19,6 +23,9 @@ $(document).ready(function(){
 		}
 		console.log('thisGame.player', thisGame.player);
 		console.log('thisGame.currentOpponent', thisGame.currentOpponent);
+		if (thisGame.player != undefined && thisGame.currentOpponent != undefined){
+			return thisGame.startGame();
+		}
 	}
 	
 	//Game invokes this constructor to create Character objects which are stored in Game.characters object
@@ -36,17 +43,18 @@ $(document).ready(function(){
 
 		}
 	}
-
+	//Game object
 	function Game(characterArray) {
 		this.player;
 		this.currentOpponent;
 		this.characters = {};
-
+		//Game object uses createCharacter function to make new Character objects and store them in Game.characters
 		this.createCharacter = function(name, hp, attackPower, counterAttackPower){
 			var newChar = new Character(name, hp, attackPower, counterAttackPower);
 			this.characters[name] = newChar;
 			return;
 		}
+		//this loop invokes this.createCharacter for each character in the given array, and then creates a <div> for each and populates with the provided image
 		var c = characterArray;
 		for(char in c) {
 			this.createCharacter(c[char][0],c[char][1],c[char][2],c[char][3],c[char][4]);
@@ -59,15 +67,12 @@ $(document).ready(function(){
 				$("#"+charName).append(imgStr);
 			}
 		}
-
-
+		
+		this.startGame = function(){
+			console.log("GAME STARTED!");
+			$(".attack").html("<button id='attackButton'>ATTACK</button>")
+		}
 	}
-
-
-
-
-	//
-
 
 
 
@@ -75,10 +80,10 @@ $(document).ready(function(){
 
 
 
-
-	thisGame.characters["IG_88"].attack(thisGame.characters["4LOM"]);
-	thisGame.characters["IG_88"].attack(thisGame.characters["4LOM"]);
-	thisGame.characters["IG_88"].attack(thisGame.characters["4LOM"]);
-	console.log(thisGame);
-	
+//
+//	thisGame.characters["IG_88"].attack(thisGame.characters["4LOM"]);
+//	thisGame.characters["IG_88"].attack(thisGame.characters["4LOM"]);
+//	thisGame.characters["IG_88"].attack(thisGame.characters["4LOM"]);
+//	console.log(thisGame);
+//	
 });
