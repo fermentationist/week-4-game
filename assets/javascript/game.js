@@ -1,6 +1,6 @@
 $(document).ready(function(){
 	//pass array of character attributes to Game object to populate Game.characters
-	var characters = [["4LOM",140,20,45,"assets/images/4LOM.jpg"],["IG_88",145,20,50,"assets/images/IG88.jpg"],["Salacious_B_Crumb",55,5,15,"assets/images/scrumb.jpg"],["Rancor",450,85,125,"assets/images/rancor.jpg"]];
+	var characters = [["4LOM",140,20,45,"assets/images/4LOM.png"],["IG_88",145,20,50,"assets/images/IG88edited.png"],["Salacious_B_Crumb",55,5,15,"assets/images/scrumb2.png"],["Rancor",450,85,125,"assets/images/rancorcloseup.png"],["C3PO",90,10,10,"assets/images/C3PO.png"]];
 	
 	//create new Game
 	var thisGame = new Game(characters);
@@ -8,10 +8,6 @@ $(document).ready(function(){
 	//click on character image to select player, and again to choose opponent
 	$(".charImage").on("click", choosePlayer);
 
-
-	function makeNoise(){
-		thisGame.characters[thisGame.player].attack(thisGame.characters[thisGame.currentOpponent]);	}
-	
 	function choosePlayer(){
 		console.log(this.id);
 		if(thisGame.player == undefined){
@@ -33,14 +29,20 @@ $(document).ready(function(){
 		this.name = name;
 		this.hp = hp;
 		this.ap = attackPower;
+        this.apBase = attackPower;
 		this.cp = counterAttackPower;
 		this.image = image;
+        this.attackPower = this.ap;
 		this.attack = function(defender){
-			if (this.name)
-			console.log(this.name + " attacks " + defender.name + " for " + this.ap + " points of damage!");
-			defender.hp -= this.ap;
+            if(this.name != thisGame.player){
+                this.attackPower = this.cp;
+                this.apBase = 0;
+            }
+			console.log(this.name + " attacks " + defender.name + " for " + this.attackPower + " points of damage!");
+			defender.hp -= this.attackPower;
 			console.log('defender.hp = ', defender.hp);
-
+            this.attackPower += this.apBase;
+            
 		}
 	}
 	//Game object
@@ -61,7 +63,7 @@ $(document).ready(function(){
 			var charName = c[char][0];
 			var idStr = "<div id='" + charName + "' class='charImage' alt='" + charName + "'>";
 			var img = c[char][4];
-			var imgStr = "<img src='" + img + "' height='250px'>";
+			var imgStr = "<img src='" + img + "' height='200px'>";
 			$(".charSelect").append("<div " + idStr + "</div>");
 			if (img != null){
 				$("#"+charName).append(imgStr);
@@ -74,7 +76,67 @@ $(document).ready(function(){
 		}
 	}
 
-	$(".attack").on("click", makeNoise);
+	$(".attack").on("click", function(){
+		var player = thisGame.characters[thisGame.player];
+		var enemy = thisGame.characters[thisGame.currentOpponent];
+		battleRound(player,enemy);
+//		console.log('enemy', enemy);
+//		player.attack(enemy);
+//
+//		if(enemy.hp < 1){
+//			console.log(enemy.name + " has been defeated!");
+//			delete thisGame.characters[enemy.name];
+//			console.log(enemy);
+//			console.log(thisGame.characters);
+//			console.log(thisGame.currentOpponent);
+//			thisGame.currentOpponent = undefined;
+//
+//		}
+//
+//		thisGame.characters[thisGame.currentOpponent].attack(thisGame.characters[thisGame.player]);
+//		if(player.hp < 1){
+//			console.log(enemy.name + " has defeated you!");
+//			gameOver();
+		});
+	
+	function objectSize(obj){
+		var count = 0;
+		for (key in obj){
+			count++
+		}
+		return count;
+	}
+	
+	function battleRound(player,enemy){
+		player.attack(enemy);
+		if(enemy.hp < 1){
+			console.log(enemy.name + " has been defeated!");
+			thisGame.currentOpponent = undefined;
+			delete thisGame.characters[enemy.name];
+			$("#"+enemy.name).remove();
+			$("#attackButton").remove();
+			console.log({}.length);
+			if(objectSize(thisGame.characters) == 1){
+				gameOver("Won!");
+			}
+		}else{
+		
+		enemy.attack(player);
+		if(player.hp < 1){
+			console.log(enemy.name + " has defeated you!");
+			$("#attackButton").remove();
+			gameOver("Lost!");
+		}
+		}
+	}
+		
+		
+    function gameOver(winLoseString){
+        console.log("GAME OVER")
+		console.log("You " + winLoseString);
+		return;
+    }
+        
 
 	console.log(thisGame.characters);
 

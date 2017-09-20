@@ -5,3 +5,27 @@ img {
 .attack {
 	clear:both;
 }
+
+body, html {
+	background-image:url("../images/rancorpit2.jpg");
+	background-repeat:no-repeat;
+	background-size:cover;
+	background-position:center;
+	height:100%;
+	
+}
+
+.charImage {
+/*	min-width:250px;*/
+	border-style:groove;
+	border-width:medium;
+	border-color:white;
+	float:left;
+	
+}
+
+.clearfix :after{
+	display:block;
+	content="";
+	clear:both;
+}
