@@ -1,9 +1,11 @@
-img {
-	float:left;
+#messageWindow {
+	overflow:scroll;
 }
-
-.attack {
+#attackButton {
 	clear:both;
+	margin:20px auto;
+	display:block;
+	padding:20px;
 }
 
 body, html {
@@ -19,13 +21,41 @@ body, html {
 /*	min-width:250px;*/
 	border-style:groove;
 	border-width:medium;
-	border-color:white;
-	float:left;
-	
+	border-color:gray;
+	margin:auto;
+	display:block;
+}
+
+.charImage img {
+	display:block;
+    margin:auto;   
+    height:100px;
+	padding:10px;
 }
 
 .clearfix :after{
 	display:block;
 	content="";
 	clear:both;
+}
+
+.charStats {
+	text-align: center;
+	color:white;
+	margin:0 10px;
+}
+
+#arena {
+	display:none;
+	margin:200px auto 0 auto;
+	height:auto;
+	width:auto;
+	border-style:dotted;
+	border-color:red;
+}
+
+.charContainer {
+	display:block;
+	margin:auto;
+
 }

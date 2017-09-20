@@ -1,6 +1,6 @@
 $(document).ready(function(){
 	//pass array of character attributes to Game object to populate Game.characters
-	var characters = [["4LOM",140,20,45,"assets/images/4LOM.png"],["IG_88",145,20,50,"assets/images/IG88edited.png"],["Salacious_B_Crumb",55,5,15,"assets/images/scrumb2.png"],["Rancor",450,85,125,"assets/images/rancorcloseup.png"],["C3PO",90,10,10,"assets/images/C3PO.png"]];
+	var characters = [["4LOM",140,20,45,"assets/images/4LOM.png"],["IG-88",145,20,50,"assets/images/IG88edited.png"],["Salacious_B_Crumb",55,5,15,"assets/images/scrumb2.png"],["Rancor",450,85,125,"assets/images/rancorcloseup.png"],["C3PO",90,10,10,"assets/images/C3PO.png"]];
 	
 	//create new Game
 	var thisGame = new Game(characters);
@@ -12,9 +12,16 @@ $(document).ready(function(){
 		console.log(this.id);
 		if(thisGame.player == undefined){
 			thisGame.player = this.id;
+			var playerDiv = $("#"+this.id);
+			playerDiv.detach();
+			$("#playerCol").append(playerDiv);
+			$("#arena").css("display","block");
 			console.log('thisGame.player', thisGame.player);
 		}else if(thisGame.currentOpponent == undefined && this.id != thisGame.player){
 			thisGame.currentOpponent = this.id;
+			var opponentDiv = $("#"+this.id);
+			opponentDiv.detach();
+			$("#opponentCol").append(opponentDiv);
 		}
 		console.log('thisGame.player', thisGame.player);
 		console.log('thisGame.currentOpponent', thisGame.currentOpponent);
@@ -41,9 +48,14 @@ $(document).ready(function(){
 			console.log(this.name + " attacks " + defender.name + " for " + this.attackPower + " points of damage!");
 			defender.hp -= this.attackPower;
 			console.log('defender.hp = ', defender.hp);
-            this.attackPower += this.apBase;
-            
+            this.attackPower += this.apBase;        
 		}
+		
+		this.update = function(){
+			$("#" + this.name + "-name").html(this.name);
+			$("#" + this.name + "-stats").html("HP:" + this.hp);
+		}
+	
 	}
 	//Game object
 	function Game(characterArray) {
@@ -61,13 +73,18 @@ $(document).ready(function(){
 		for(char in c) {
 			this.createCharacter(c[char][0],c[char][1],c[char][2],c[char][3],c[char][4]);
 			var charName = c[char][0];
-			var idStr = "<div id='" + charName + "' class='charImage' alt='" + charName + "'>";
+			var colDiv = $("<div class='col-sm-" + Math.floor(12/c.length) + "'>");
+			var idDiv = $("<div id='" + charName + "' class='charImage' alt='" + charName + "'>");
 			var img = c[char][4];
-			var imgStr = "<img src='" + img + "' height='200px'>";
-			$(".charSelect").append("<div " + idStr + "</div>");
+			var imgStr = "<img src='" + img + "' height='100px';>";
+			$(colDiv).append(idDiv);
+			$(".charSelect").append(colDiv);
 			if (img != null){
 				$("#"+charName).append(imgStr);
 			}
+			$("#"+charName).append("<div class='charStats' id='" + charName + "-name'>");
+			$("#"+charName).append("<div class='charStats' id='" + charName + "-stats'>");
+			this.characters[charName].update();
 		}
 		
 		this.startGame = function(){
@@ -80,23 +97,6 @@ $(document).ready(function(){
 		var player = thisGame.characters[thisGame.player];
 		var enemy = thisGame.characters[thisGame.currentOpponent];
 		battleRound(player,enemy);
-//		console.log('enemy', enemy);
-//		player.attack(enemy);
-//
-//		if(enemy.hp < 1){
-//			console.log(enemy.name + " has been defeated!");
-//			delete thisGame.characters[enemy.name];
-//			console.log(enemy);
-//			console.log(thisGame.characters);
-//			console.log(thisGame.currentOpponent);
-//			thisGame.currentOpponent = undefined;
-//
-//		}
-//
-//		thisGame.characters[thisGame.currentOpponent].attack(thisGame.characters[thisGame.player]);
-//		if(player.hp < 1){
-//			console.log(enemy.name + " has defeated you!");
-//			gameOver();
 		});
 	
 	function objectSize(obj){
@@ -109,31 +109,40 @@ $(document).ready(function(){
 	
 	function battleRound(player,enemy){
 		player.attack(enemy);
+		player.update();
+		enemy.update();
 		if(enemy.hp < 1){
-			console.log(enemy.name + " has been defeated!");
+			printMsg("George has been defeated!");
+			console.log(" has been defeated!");
 			thisGame.currentOpponent = undefined;
 			delete thisGame.characters[enemy.name];
 			$("#"+enemy.name).remove();
 			$("#attackButton").remove();
-			console.log({}.length);
-			if(objectSize(thisGame.characters) == 1){
+ 			if(objectSize(thisGame.characters) == 1){
 				gameOver("Won!");
 			}
 		}else{
 		
 		enemy.attack(player);
+		player.update();
+		enemy.update();
 		if(player.hp < 1){
-			console.log(enemy.name + " has defeated you!");
+			printMsg(enemy.name + " has defeated you!");
 			$("#attackButton").remove();
 			gameOver("Lost!");
 		}
 		}
 	}
 		
+	function printMsg(msg){
+		console.log(msg);
 		
+		var messageElement = $("p").html(msg);
+		$("#messageWindow").append(messageElement);
+	}
     function gameOver(winLoseString){
-        console.log("GAME OVER")
-		console.log("You " + winLoseString);
+        printMsg("GAME OVER")
+		printMsg("You " + winLoseString);
 		return;
     }
         
