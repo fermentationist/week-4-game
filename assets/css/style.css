@@ -1,5 +1,15 @@
 #messageWindow {
 	overflow:scroll;
+	text-align:center;
+/*
+	border-style:solid;
+	border-width:thin;
+	border-color:azure;
+*/
+	height:90px;
+	margin-top:40px;
+	color:azure;
+	font-size:18px;
 }
 #attackButton {
 	clear:both;
@@ -47,7 +57,7 @@ body, html {
 
 #arena {
 	display:none;
-	margin:200px auto 0 auto;
+	margin:40px auto 0 auto;
 	height:auto;
 	width:auto;
 	border-style:dotted;
@@ -58,4 +68,18 @@ body, html {
 	display:block;
 	margin:auto;
 
+}
+
+div.col-sm-2 {
+	padding:0;
+}
+
+.name {
+	color:coral;
+	font-size:16px;
+}
+
+#gameOver{
+	font-size:24px;
+	color: deeppink;
 }
