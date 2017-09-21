@@ -1,12 +1,12 @@
 #messageWindow {
-	overflow:scroll;
+	overflow:hidden;
 	text-align:center;
 /*
 	border-style:solid;
 	border-width:thin;
 	border-color:azure;
 */
-	height:90px;
+	height:80px;
 	margin-top:40px;
 	color:azure;
 	font-size:18px;
@@ -79,7 +79,7 @@ div.col-sm-2 {
 	font-size:16px;
 }
 
-#gameOver{
+#gameOver, .startMsg {
 	font-size:24px;
 	color: deeppink;
 }

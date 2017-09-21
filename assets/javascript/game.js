@@ -1,4 +1,8 @@
 $(document).ready(function(){
+	
+//	$("#messageWindow").html("Choose your character");
+	var startMsg = "<p class='startMsg'>" +"Select a character</p>";
+	$("#messageWindow").append(startMsg);
 	//pass array of character attributes to Game object to populate Game.characters
 	var characters = [["4LOM",140,20,45,"assets/images/4LOM.png"],["IG-88",145,20,50,"assets/images/IG88edited.png"],["Salacious_B_Crumb",55,5,15,"assets/images/scrumb2.png"],["Rancor",300,75,95,"assets/images/rancorcloseup.png"],["C3PO",90,10,10,"assets/images/C3PO.png"]];
 	
@@ -6,6 +10,7 @@ $(document).ready(function(){
 	var thisGame = new Game(characters);
 	
 	//click on character image to select player, and again to choose opponent
+
 	$(".charImage").on("click", choosePlayer);
 
 	function choosePlayer(){
@@ -17,6 +22,9 @@ $(document).ready(function(){
 			$("#playerCol").append(playerDiv);
 			$("#arena").css("display","block");
 			console.log('thisGame.player', thisGame.player);
+			var chooseMsg = "<p class='startMsg'>" +"Select an Opponent</p>";
+			$("#messageWindow").empty();
+			$("#messageWindow").append(chooseMsg);
 		}else if(thisGame.currentOpponent == undefined && this.id != thisGame.player){
 			thisGame.currentOpponent = this.id;
 			var opponentDiv = $("#"+this.id);
@@ -86,7 +94,7 @@ $(document).ready(function(){
 			this.createCharacter(c[char][0],c[char][1],c[char][2],c[char][3],c[char][4]);
 			var charName = c[char][0];
 			var colDiv = $("<div class='col-sm-" + Math.floor(12/c.length) + "'>");
-			var idDiv = $("<div id='" + charName + "' class='charImage' alt='" + charName + "'>");
+			var idDiv = $("<div id='" + charName + "' class='charImage clearfix' alt='" + charName + "'>");
 			var img = c[char][4];
 			var imgStr = "<img src='" + img + "' height='90px';>";
 			$(colDiv).append(idDiv);
@@ -102,6 +110,9 @@ $(document).ready(function(){
 		}
 		
 		this.startGame = function(){
+			var startMsg = "<p class='startMsg'>" +"FIGHT!!</p>";
+			$("#messageWindow").empty();
+			$("#messageWindow").append(startMsg);
 			console.log("GAME STARTED!");
 			$(".attack").html("<button id='attackButton'>ATTACK</button>")
 		}
@@ -131,6 +142,9 @@ $(document).ready(function(){
 			delete thisGame.characters[enemy.name];
 			$("#"+enemy.name).remove();
 			$("#attackButton").remove();
+			var chooseMsg = "<p class='startMsg'>" +"Select Next Opponent</p>";
+			$("#messageWindow").append(chooseMsg);
+			$("#messageWindow").scrollTop($("#messageWindow")[0].scrollHeight);
  			if(objectSize(thisGame.characters) == 1){
 				gameOver("Won");
 			}
@@ -151,15 +165,14 @@ $(document).ready(function(){
 		var msgP = "<p>"+msg+"</p>";
 		$("#messageWindow").append(msgP);
 		$("#messageWindow").scrollTop($("#messageWindow")[0].scrollHeight);
-//		var box = $("#messageWindow");
-//		box.scrollTop = box.scrollHeight;
+
 	}
 	
     function gameOver(winLoseString){
 		var msgP = "<p id='gameOver'>GAME OVER!! You "+winLoseString+"!!</p>";
 		$("#messageWindow").append(msgP);
 		$("#messageWindow").scrollTop($("#messageWindow")[0].scrollHeight);
-		setTimeout(function(){location.reload(true);},7000);
+		setTimeout(function(){location.reload(true);},6000);
 		return;
     }
         
