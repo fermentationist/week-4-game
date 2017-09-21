@@ -7,7 +7,6 @@
 	border-color:azure;
 */
 	height:80px;
-	margin-top:40px;
 	color:azure;
 	font-size:18px;
 }
@@ -53,7 +52,9 @@ body, html {
 	text-align: center;
 	color:white;
 	margin:0 10px;
+	font-size:12px;
 }
+
 
 #arena {
 	display:none;
@@ -76,10 +77,30 @@ div.col-sm-2 {
 
 .name {
 	color:coral;
-	font-size:16px;
+	font-size:14px;
+	display:block;
+	text-align: center;
+	margin:auto;
 }
 
 #gameOver, .startMsg {
 	font-size:24px;
 	color: deeppink;
+}
+
+.charSelect {
+	margin:40px auto 15px 10%;
+	
+}
+
+@media and screen(max-width:768px){
+
+	charStats, charImage img{
+		float:left;
+		
+	}
+	
+	
+	
+	
 }

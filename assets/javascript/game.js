@@ -4,7 +4,7 @@ $(document).ready(function(){
 	var startMsg = "<p class='startMsg'>" +"Select a character</p>";
 	$("#messageWindow").append(startMsg);
 	//pass array of character attributes to Game object to populate Game.characters
-	var characters = [["4LOM",140,20,45,"assets/images/4LOM.png"],["IG-88",145,20,50,"assets/images/IG88edited.png"],["Salacious_B_Crumb",55,5,15,"assets/images/scrumb2.png"],["Rancor",300,75,95,"assets/images/rancorcloseup.png"],["C3PO",90,10,10,"assets/images/C3PO.png"]];
+	var characters = [["4LOM",140,25,45,"assets/images/4LOM.png"],["IG-88",145,20,50,"assets/images/IG88edited.png"],["Salacious_B_Crumb",90,5,15,"assets/images/scrumb2.png"],["Rancor",300,45,55,"assets/images/rancorcloseup.png"],["C3PO",100,10,10,"assets/images/C3PO.png"]];
 	
 	//create new Game
 	var thisGame = new Game(characters);
@@ -102,7 +102,7 @@ $(document).ready(function(){
 			if (img != null){
 				$("#"+charName).append(imgStr);
 			}
-			$("#"+charName).append("<div class='charStats name' id='" + charName + "-name'>");
+			$("#"+charName).append("<div class='charStats clearfix name' id='" + charName + "-name'>");
 			$("#"+charName).append("<div class='charStats hp' id='" + charName + "-hp'>");
 			$("#"+charName).append("<div class='charStats ap' id='" + charName + "-ap'>");
 			$("#"+charName).append("<div class='charStats cp' id='" + charName + "-cp'>");
