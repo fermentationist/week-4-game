@@ -4,7 +4,7 @@ $(document).ready(function(){
 	var startMsg = "<p class='startMsg'>" +"Select a character</p>";
 	$("#messageWindow").append(startMsg);
 	//pass array of character attributes to Game object to populate Game.characters
-	var characters = [["4LOM",140,25,30,"assets/images/4LOM.png"],["IG-88",145,20,25,"assets/images/IG88edited.png"],["Salacious_B_Crumb",100,10,15,"assets/images/scrumb2.png"],["Rancor",200,45,55,"assets/images/rancorcloseup.png"],["C3PO",130,10,4,"assets/images/C3PO.png"]];
+	var characters = [["4LOM",140,25,30,35,"assets/images/4LOM.png"],["IG-88",145,20,25,40,"assets/images/IG88edited.png"],["Salacious_B_Crumb",100,10,15,50,"assets/images/scrumb2.png"],["Rancor",200,45,55,20,"assets/images/rancorcloseup.png"],["C3PO",130,10,4,30,"assets/images/C3PO.png"]];
 	
 	//create new Game
 	var thisGame = new Game(characters);
@@ -40,29 +40,35 @@ $(document).ready(function(){
 	}
 	
 	//Game invokes this constructor to create Character objects which are stored in Game.characters object
-	function Character(name, hp, attackPower, counterAttackPower, image = null) {
+	function Character(name, hp, attackPower, counterAttackPower, dexterity, image = null) {
 		this.name = name;
 		this.hp = hp;
 		this.ap = this.apBase = this.atkPower = attackPower;
 		this.cp = counterAttackPower;
+        this.dexterity = dexterity;
+        console.log('this.dexterity', this.dexterity);
 		this.image = image;
 
 		
 		this.attack = function(defender){
 			this.atkPower = this.ap;
-            if(this.name != thisGame.player){
-				console.log("*"+this.name==thisGame.player);
+            var hitRoll = Math.floor((Math.random())*100);
+            console.log('hitRoll', hitRoll);
+            var hitProb = 50 - (this.dexterity - defender.dexterity);
+            console.log('hitProb', hitProb);
+            if (hitRoll < hitProb){
+                console.log('(hitRoll < hitProb)', (hitRoll < hitProb));
+                printMsg(this.name + " missed!");
+                return;
+            }else if(this.name != thisGame.player){
                 this.atkPower = this.cp;
                 this.apBase = 0;
-				console.log(this.name+' this.apBase', this.apBase);
 				
             }
 			printMsg(this.name + " attacks " + defender.name + " for " + this.atkPower + " points of damage!");
 			defender.hp -= this.atkPower;
 			console.log('defender.hp = ', defender.hp);
             this.ap += this.apBase;        
-//			console.log(this.name+' this.apBase', this.apBase);
-//			console.log(this.name+' this.ap', this.ap);
 		}
 		
 		this.update = function(){
@@ -83,19 +89,19 @@ $(document).ready(function(){
 		this.currentOpponent;
 		this.characters = {};
 		//Game object uses createCharacter function to make new Character objects and store them in Game.characters
-		this.createCharacter = function(name, hp, attackPower, counterAttackPower){
-			var newChar = new Character(name, hp, attackPower, counterAttackPower);
+		this.createCharacter = function(name, hp, attackPower, counterAttackPower, dexterity){
+			var newChar = new Character(name, hp, attackPower, counterAttackPower, dexterity);
 			this.characters[name] = newChar;
 			return;
 		}
 		//this loop invokes this.createCharacter for each character in the given array, and then creates a <div> for each and populates with the provided image
 		var c = characterArray;
 		for(char in c) {
-			this.createCharacter(c[char][0],c[char][1],c[char][2],c[char][3],c[char][4]);
+			this.createCharacter(c[char][0],c[char][1],c[char][2],c[char][3],c[char][4],c[char][5]);
 			var charName = c[char][0];
 			var colDiv = $("<div class='col-sm-" + Math.floor(12/c.length) + "'>");
 			var idDiv = $("<div id='" + charName + "' class='charImage clearfix' alt='" + charName + "'>");
-			var img = c[char][4];
+			var img = c[char][5];
 			var imgStr = "<img src='" + img + "' height='90px';>";
 			$(colDiv).append(idDiv);
 			$(".charSelect").append(colDiv);
@@ -169,6 +175,7 @@ $(document).ready(function(){
 	}
 	
     function gameOver(winLoseString){
+		$("#attackButton").empty();
 		var msgP = "<p id='gameOver'>GAME OVER!! You "+winLoseString+"!!</p>";
 		$("#messageWindow").append(msgP);
 		$("#messageWindow").scrollTop($("#messageWindow")[0].scrollHeight);
