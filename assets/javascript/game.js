@@ -4,7 +4,7 @@ $(document).ready(function(){
 	var startMsg = "<p class='startMsg'>" +"Select a character</p>";
 	$("#messageWindow").append(startMsg);
 	//pass array of character attributes to Game object to populate Game.characters
-	var characters = [["4LOM",140,25,30,35,"assets/images/4LOM.png"],["IG-88",145,20,25,40,"assets/images/IG88edited.png"],["Salacious_B_Crumb",100,10,15,50,"assets/images/scrumb2.png"],["Rancor",200,45,55,20,"assets/images/rancorcloseup.png"],["C3PO",130,10,4,30,"assets/images/C3PO.png"]];
+	var characters = [["4LOM",140,25,30,35,"assets/images/4LOM.png"],["IG-88",145,20,25,40,"assets/images/IG88edited.png"],["Salacious_B_Crumb",100,10,15,45,"assets/images/scrumb2.png"],["Rancor",200,45,55,25,"assets/images/rancorcloseup.png"],["C3PO",130,10,4,30,"assets/images/C3PO.png"]];
 	
 	//create new Game
 	var thisGame = new Game(characters);
@@ -54,9 +54,9 @@ $(document).ready(function(){
 			this.atkPower = this.ap;
             var hitRoll = Math.floor((Math.random())*100);
             console.log('hitRoll', hitRoll);
-            var hitProb = 50 - (this.dexterity - defender.dexterity);
+            var hitProb = 75 + (this.dexterity - defender.dexterity);
             console.log('hitProb', hitProb);
-            if (hitRoll < hitProb){
+            if (hitRoll > hitProb){
                 console.log('(hitRoll < hitProb)', (hitRoll < hitProb));
                 printMsg(this.name + " missed!");
                 return;
@@ -73,8 +73,8 @@ $(document).ready(function(){
 		
 		this.update = function(){
 			var hp = "HP:"+this.hp;
-			var ap = "Attack power:"+this.ap;
-			var cp = "Counterattack power:"+this.cp;
+			var ap = "Attack:"+this.ap;
+			var cp = "Counterattack:"+this.cp;
 			$("#" + this.name + "-name").html(this.name);
 			$("#" + this.name + "-hp").html(hp);
 			$("#" + this.name + "-ap").html(ap);

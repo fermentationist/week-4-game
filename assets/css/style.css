@@ -6,7 +6,7 @@
 	border-width:thin;
 	border-color:azure;
 */
-	height:85px;
+	height:90px;
 	color:azure;
 	font-size:18px;
 }
@@ -63,6 +63,7 @@ body, html {
 	width:auto;
 	border-style:dotted;
 	border-color:red;
+    padding:10px;
 }
 
 .charContainer {
