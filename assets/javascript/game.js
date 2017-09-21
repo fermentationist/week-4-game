@@ -4,7 +4,7 @@ $(document).ready(function(){
 	var startMsg = "<p class='startMsg'>" +"Select a character</p>";
 	$("#messageWindow").append(startMsg);
 	//pass array of character attributes to Game object to populate Game.characters
-	var characters = [["4LOM",140,25,45,"assets/images/4LOM.png"],["IG-88",145,20,50,"assets/images/IG88edited.png"],["Salacious_B_Crumb",90,5,15,"assets/images/scrumb2.png"],["Rancor",300,45,55,"assets/images/rancorcloseup.png"],["C3PO",100,10,10,"assets/images/C3PO.png"]];
+	var characters = [["4LOM",140,25,30,"assets/images/4LOM.png"],["IG-88",145,20,25,"assets/images/IG88edited.png"],["Salacious_B_Crumb",100,10,15,"assets/images/scrumb2.png"],["Rancor",200,45,55,"assets/images/rancorcloseup.png"],["C3PO",130,10,4,"assets/images/C3PO.png"]];
 	
 	//create new Game
 	var thisGame = new Game(characters);
@@ -172,6 +172,9 @@ $(document).ready(function(){
 		var msgP = "<p id='gameOver'>GAME OVER!! You "+winLoseString+"!!</p>";
 		$("#messageWindow").append(msgP);
 		$("#messageWindow").scrollTop($("#messageWindow")[0].scrollHeight);
+//		if(winLoseString === "Won"){
+//			$("#playerCol").animate({width:"+=250px"});
+//		}
 		setTimeout(function(){location.reload(true);},6000);
 		return;
     }
